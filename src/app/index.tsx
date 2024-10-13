@@ -25,7 +25,6 @@ export default function HomeScreen() {
 		body: 'This is a body',
 		// subtitle: 'This is a subtitle',
 		// isPinned: true,
-		// random isPinned
 		isPinned: Math.random() > 0.5,
 		likes: Math.floor(Math.random() * 100),
 	};
