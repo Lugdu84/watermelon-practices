@@ -37,32 +37,87 @@ export const createPost = async ({
 };
 
 // 1. fetch simple pour récupérer tous les Posts
-export const getPosts = async () => {};
+export const getPosts = async () => {
+	const posts = await database.get<Post>('posts').query().fetch();
+	return posts;
+};
 
 // 2. count all Posts
-export const countPosts = async () => {};
+export const countPosts = async () => {
+	const count = await database.get<Post>('posts').query().fetchCount();
+	console.log('count', count);
+};
+
+// Utilisation de Q pour les requêtes =>
 
 // 3. sort all Posts (sortBy, asc/desc)
-export const getSortedPosts = async () => {};
+export const getSortedPosts = async () => {
+	const posts = await database
+		.get<Post>('posts')
+		.query(Q.sortBy('likes', Q.asc))
+		.fetch();
+	return posts;
+};
 
 // 4. only pinned Posts (eq) or true/false
-export const getPinnedPosts = async () => {};
+export const getPinnedPosts = async () => {
+	const posts = await database
+		.get<Post>('posts')
+		.query(Q.where('is_pinned', true));
+
+	return posts;
+};
 
 // 5. filter Posts with fragment of title (like)
-export const getPostByTitle = async (text: string) => {};
+export const getPostByTitle = async (text: string) => {
+	const posts = await database
+		.get<Post>('posts')
+		.query(Q.where('title', Q.like(`%${text}%`)))
+		.fetch();
+	return posts;
+};
 
-// 6. utilisez sanitize pour rendre safe les données provenant d'entrées utilisateur
-
-export const getPostByTitleSanitize = async (text: string) => {};
+// 6. utilisez sanitizeLikeString dans votre like pour rendre safe les données provenant d'entrées utilisateur
+export const getPostByTitleSanitize = async (text: string) => {
+	const posts = await database
+		.get<Post>('posts')
+		.query(Q.where('title', Q.like(`%${Q.sanitizeLikeString(text)}%`)))
+		.fetch();
+	return posts;
+};
 
 // 7. with includes (fragment of title, case sensitive)
-export const getPostsWithIncludes = async (text: string) => {};
+export const getPostsWithIncludes = async (text: string) => {
+	const posts = await database
+		.get<Post>('posts')
+		.query(Q.where('title', Q.includes(text)))
+		.fetch();
+	return posts;
+};
 
 // 8. gte,gt,lte,lt
-export const getLikesPosts = async (num: number) => {};
+export const getLikesPosts = async (num: number) => {
+	const posts = await database
+		.get<Post>('posts')
+		.query(Q.where('likes', Q.lte(num)))
+		.fetch();
+	return posts;
+};
 
 // 9. likes entre num1 et num2
-export const getLikesPostsBetween = async (num1: number, num2: number) => {};
+export const getLikesPostsBetween = async (num1: number, num2: number) => {
+	const posts = await database
+		.get<Post>('posts')
+		.query(Q.where('likes', Q.between(num1, num2)))
+		.fetch();
+	return posts;
+};
 
 // and et or
-export const getLikesPostsAndOr = async () => {};
+export const getLikesPostsAndOr = async () => {
+	const posts = await database
+		.get<Post>('posts')
+		.query(Q.or(Q.where('likes', Q.gt(80)), Q.where('is_pinned', true)))
+		.fetch();
+	return posts;
+};

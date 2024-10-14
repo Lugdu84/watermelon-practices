@@ -39,15 +39,15 @@ export default function HomeScreen() {
 
 	const fetchPosts = async () => {
 		// const posts = await getPosts();
-		// const posts = await countPosts();
+		// await countPosts();
 		// const posts = await getSortedPosts();
 		// const posts = await getPinnedPosts();
-		// const posts = await getPostByTitle('post');
+		// const posts = await getPostByTitle('56');
 		// const posts = await getPostByTitleSanitize('post');
-		// const posts = await getPostsWithIncludes('post');
-		// const posts = await getLikesPosts(70);
-		// const posts = await getLikesPostsBetween(30, 50);
-		// const posts = await getLikesPostsAndOr();
+		// const posts = await getPostsWithIncludes('7');
+		// const posts = await getLikesPosts(20);
+		// const posts = await getLikesPostsBetween(50, 90);
+		const posts = await getLikesPostsAndOr();
 		setPosts(posts);
 	};
 
