@@ -36,9 +36,18 @@ export const createPost = async ({
 	return newPost;
 };
 
+export const randomPost = () => {
+	return {
+		title: `Post ${Math.floor(Math.random() * 100)}`,
+		body: 'This is a body',
+		isPinned: Math.random() > 0.5,
+		likes: Math.floor(Math.random() * 100),
+	};
+};
+
 // 1. fetch simple pour récupérer tous les Posts
-export const getPosts = async () => {
-	const posts = await database.get<Post>('posts').query().fetch();
+export const getPosts = () => {
+	const posts = database.get<Post>('posts').query().observe();
 	return posts;
 };
 
@@ -54,8 +63,7 @@ export const countPosts = async () => {
 export const getSortedPosts = async () => {
 	const posts = await database
 		.get<Post>('posts')
-		.query(Q.sortBy('likes', Q.asc))
-		.fetch();
+		.query(Q.sortBy('likes', Q.asc));
 	return posts;
 };
 
@@ -64,7 +72,6 @@ export const getPinnedPosts = async () => {
 	const posts = await database
 		.get<Post>('posts')
 		.query(Q.where('is_pinned', true));
-
 	return posts;
 };
 
