@@ -2,12 +2,24 @@ import { View, Text, FlatList, StyleSheet } from 'react-native';
 import React from 'react';
 import Post from '@/database/model/Post';
 import { Feather } from '@expo/vector-icons';
+import { withObservables } from '@nozbe/watermelondb/react';
 
+import { getPosts } from '@/database/functions';
 type PostType = {
 	posts: Post[];
 };
 
-export default function ListPost({ posts }: PostType) {
+// 1. Pas de props à observer
+const enhance = withObservables([], () => ({
+	posts: getPosts(),
+}));
+
+// 2 Props à observer
+// const enhance = withObservables(['post'], ({ post }) => ({
+
+// }));
+
+function ListPost({ posts }: PostType) {
 	return (
 		<FlatList
 			data={posts}
@@ -38,6 +50,8 @@ export default function ListPost({ posts }: PostType) {
 		/>
 	);
 }
+
+export default enhance(ListPost);
 
 const styles = StyleSheet.create({
 	cardRow: {
