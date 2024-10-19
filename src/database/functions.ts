@@ -51,6 +51,14 @@ export const getPosts = () => {
 	return posts;
 };
 
+// supprimer un post
+export const deletePost = (id: string) => {
+	database.write(async () => {
+		const post = await database.get<Post>('posts').find(id);
+		await post.destroyPermanently();
+	});
+};
+
 // 2. count all Posts
 export const countPosts = async () => {
 	const count = await database.get<Post>('posts').query().fetchCount();

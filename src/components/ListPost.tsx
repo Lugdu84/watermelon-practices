@@ -1,10 +1,10 @@
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Pressable } from 'react-native';
 import React from 'react';
 import Post from '@/database/model/Post';
 import { Feather } from '@expo/vector-icons';
 import { withObservables } from '@nozbe/watermelondb/react';
 
-import { getPosts } from '@/database/functions';
+import { deletePost, getPosts } from '@/database/functions';
 type PostType = {
 	posts: Post[];
 };
@@ -25,8 +25,17 @@ function ListPost({ posts }: PostType) {
 			data={posts}
 			keyExtractor={(item) => item.id}
 			contentContainerStyle={{ padding: 10 }}
+			ListFooterComponent={
+				<View style={styles.footer}>
+					<Text style={styles.footerText}>
+						Appuyez longuement sur un élément pour le supprimer
+					</Text>
+				</View>
+			}
 			renderItem={({ item }) => (
-				<View style={styles.cardRow}>
+				<Pressable
+					style={styles.cardRow}
+					onLongPress={() => deletePost(item.id)}>
 					<View style={styles.title}>
 						<Text>
 							{item.title} - {item.id}
@@ -45,7 +54,7 @@ function ListPost({ posts }: PostType) {
 							<View />
 						)}
 					</View>
-				</View>
+				</Pressable>
 			)}
 		/>
 	);
@@ -76,5 +85,12 @@ const styles = StyleSheet.create({
 		width: 40,
 		justifyContent: 'center',
 		alignItems: 'center',
+	},
+	footer: {
+		padding: 10,
+	},
+	footerText: {
+		fontSize: 12,
+		fontStyle: 'italic',
 	},
 });
