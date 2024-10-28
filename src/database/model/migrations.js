@@ -1,7 +1,9 @@
 import {
 	schemaMigrations,
 	addColumns,
+	createTable,
 } from '@nozbe/watermelondb/Schema/migrations';
+import { create } from 'react-test-renderer';
 
 export default schemaMigrations({
 	migrations: [
@@ -12,6 +14,15 @@ export default schemaMigrations({
 				addColumns({
 					table: 'posts',
 					columns: [{ name: 'likes', type: 'number' }],
+				}),
+			],
+		},
+		{
+			toVersion: 3,
+			steps: [
+				addColumns({
+					table: 'posts',
+					columns: [{ name: 'description', type: 'string' }],
 				}),
 			],
 		},

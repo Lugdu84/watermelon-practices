@@ -31,6 +31,7 @@ export const createPost = async ({
 			post.isPinned = isPinned;
 			post.likes = likes;
 		});
+		console.log('createdPost', createdPost._raw);
 		return createdPost;
 	});
 	return newPost;

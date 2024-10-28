@@ -11,4 +11,5 @@ export default class Post extends Model {
 	@field('likes') likes;
 	@readonly @date('created_at') createdAt;
 	@readonly @date('updated_at') updatedAt;
+	@text('description') description;
 }
